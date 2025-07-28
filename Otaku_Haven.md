@@ -17,7 +17,7 @@ Looking for a site to get your latest collectibles, anime merch, or figurines? W
 
 - Allow users to favorite products and save them for later.
 - Logged-in users can leave reviews on items they’ve purchased.
-- Credit/Debit or PayPal sandbox integration for real checkout flow.
+- Credit/Debit or PayPal sandbox integration for real checkouts.
 - Track product quantities and mark items as out of stock.
 - Responsive UI / Mobile Optimization
 
