@@ -1,4 +1,4 @@
-# Otaku-Haven
+# Otaku Haven
 
 ## Overview
 
