@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: #f00;
+}
+
+.page {
+  padding: 2rem;
+  background-color: #000;
+  color: #fff;
+}
+
+.page h2 {
+  color: #f00;
+  margin-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: #f00;
+}
+
+a:hover {
+  color: #faa;
+}
