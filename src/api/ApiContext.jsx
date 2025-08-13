@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export const API = import.meta.env.VITE_API_URL;
@@ -7,11 +7,22 @@ const ApiContext = createContext();
 
 export function ApiProvider({ children }) {
   const { user } = useAuth();
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    if (user?.token) {
+      setToken(user.token);
+    } else {
+      // Gets token from localStorage if user is null (refresh case)
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) setToken(storedToken);
+    }
+  }, [user]);
 
   const request = async (resource, options = {}) => {
     const headers = { "Content-Type": "application/json", ...options.headers };
-    if (user?.token) {
-      headers["Authorization"] = `Bearer ${user.token}`;
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
     }
 
     const response = await fetch(API + resource, {
@@ -25,21 +36,8 @@ export function ApiProvider({ children }) {
     return result;
   };
 
-  const [tags, setTags] = useState({});
 
-  const provideTag = (tag, query) => {
-    setTags((current) => ({ ...current, [tag]: query }));
-  };
-
-  const invalidateTags = (tagsToInvalidate) => {
-    tagsToInvalidate.forEach((tag) => {
-      const query = tags[tag];
-      if (query) query();
-    });
-  };
-
-  const value = { request, provideTag, invalidateTags };
-  return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
+  return <ApiContext.Provider value={{ request, /*...*/ }}>{children}</ApiContext.Provider>;
 }
 
 export function useApi() {

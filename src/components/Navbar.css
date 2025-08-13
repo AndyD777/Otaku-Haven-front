@@ -1,16 +1,13 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #000;
-  color: #f00;
+  background-color: var(--pink);
   padding: 1rem 2rem;
-  border-bottom: 2px solid #f00;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .navbar h1 {
-  font-size: 1.5rem;
-  color: #f00;
   margin: 0;
 }
 
@@ -20,19 +17,22 @@
   gap: 1rem;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
-.navbar li {
+.navbar ul li {
   margin: 0;
 }
 
 .navbar a {
-  text-decoration: none;
-  color: #f00;
-  font-weight: bold;
-  transition: color 0.3s;
+  color: white;
+  font-weight: 600;
 }
 
-.navbar a:hover {
-  color: #fff;
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
 }

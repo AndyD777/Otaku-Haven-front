@@ -2,21 +2,49 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
+  const { login } = useAuth();
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser } = useAuth();
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Add register logic
-    setUser({ email });
-  };
+    setError(null);
+
+    try {
+      const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.message || 'Registration failed');
+      }
+
+      const data = await res.json();
+      login(data.user);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="auth-form">
       <h2>Register</h2>
-      <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <label htmlFor="username">Username</label>
+      <input id="username" value={username} onChange={e => setUsername(e.target.value)} required />
+
+      <label htmlFor="email">Email</label>
+      <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+
+      <label htmlFor="password">Password</label>
+      <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+
       <button type="submit">Register</button>
     </form>
   );

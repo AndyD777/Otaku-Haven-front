@@ -1,30 +1,32 @@
-import { useState } from "react";
-import { useApi } from "./ApiContext";
+import { useState } from 'react';
 
-export default function useMutation(method, resource, tagsToInvalidate = []) {
-  const { request, invalidateTags } = useApi();
-
-  const [data, setData] = useState();
+export default function useMutation(endpoint, method = 'POST') {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const mutate = async (body) => {
+  async function mutate(body) {
     setLoading(true);
     setError(null);
     try {
-      const result = await request(resource, {
+      const res = await fetch(import.meta.env.VITE_BACKEND_URL + endpoint, {
         method,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      setData(result);
-      invalidateTags(tagsToInvalidate);
-    } catch (e) {
-      console.error(e);
-      setError(e.message);
-    } finally {
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.message || 'Request failed');
+      }
+      const data = await res.json();
       setLoading(false);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+      throw err;
     }
-  };
+  }
 
-  return { mutate, data, loading, error };
+  return { mutate, loading, error };
 }
+

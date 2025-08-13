@@ -1,8 +1,9 @@
 export default function Checkout() {
   return (
-    <div className="checkout-page">
-      <h2>Mock Checkout</h2>
-      <p>This is where users would confirm their purchase. No real payments are processed.</p>
+    <div className="page">
+      <h2>Checkout</h2>
+      <p>Thank you for your purchase! (Mock checkout — no real payments yet)</p>
+      {/* ... */}
     </div>
   );
 }

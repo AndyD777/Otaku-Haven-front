@@ -1,31 +1,31 @@
-import { useEffect, useState } from "react";
-import { useApi } from "./ApiContext";
+import { useState, useEffect } from 'react';
 
-export default function useQuery(resource, tag) {
-  const { request, provideTag } = useApi();
-
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
+export default function useQuery(endpoint) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const query = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await request(resource);
-      setData(result);
-    } catch (e) {
-      console.error(e);
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (tag) provideTag(tag, query);
-    query();
-  }, []);
+    let canceled = false;
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const res = await fetch(import.meta.env.VITE_BACKEND_URL + endpoint);
+        if (!res.ok) throw new Error('Network error');
+        const json = await res.json();
+        if (!canceled) {
+          setData(json);
+          setError(null);
+        }
+      } catch (err) {
+        if (!canceled) setError(err.message);
+      } finally {
+        if (!canceled) setLoading(false);
+      }
+    }
+    fetchData();
+    return () => { canceled = true; };
+  }, [endpoint]);
 
   return { data, loading, error };
 }

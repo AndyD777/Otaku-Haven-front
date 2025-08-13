@@ -1,15 +1,33 @@
 .cart-item {
   display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  background: white;
+  padding: 0.7rem;
+  border-radius: 8px;
   align-items: center;
-  justify-content: space-between;
-  background-color: #222;
-  padding: 1rem;
-  border-bottom: 1px solid #f00;
-  color: #fff;
 }
 
 .cart-item img {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
   border-radius: 4px;
+}
+
+.cart-item div {
+  flex-grow: 1;
+}
+
+.cart-item button {
+  background-color: var(--pink);
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cart-item button:hover {
+  background-color: #e055a1;
 }

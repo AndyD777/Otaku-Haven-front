@@ -1,34 +1,35 @@
 .review-form {
-  background-color: #111;
+  background: var(--light-blue);
   padding: 1rem;
-  border-radius: 6px;
-  color: #fff;
+  border-radius: 8px;
+  margin-top: 1rem;
+  max-width: 500px;
 }
 
-.review-form input,
+.review-form label {
+  display: block;
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.review-form select,
 .review-form textarea {
   width: 100%;
-  margin-top: 0.5rem;
   padding: 0.5rem;
-  border: 1px solid #f00;
   border-radius: 4px;
-  background-color: #000;
-  color: #fff;
+  border: 1px solid #ccc;
 }
 
 .review-form button {
-  background-color: #f00;
-  color: #000;
-  border: none;
-  padding: 0.5rem 1rem;
   margin-top: 1rem;
-  cursor: pointer;
-  font-weight: bold;
+  background-color: var(--pink);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
   border-radius: 4px;
-  transition: background-color 0.3s;
+  cursor: pointer;
 }
 
 .review-form button:hover {
-  background-color: #fff;
-  color: #f00;
+  background-color: #e055a1;
 }

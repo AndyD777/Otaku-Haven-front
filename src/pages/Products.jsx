@@ -2,7 +2,7 @@ import useQuery from '../api/useQuery';
 import ProductGrid from '../components/ProductGrid';
 
 export default function Products({ onAdd }) {
-  const { data: products, loading, error } = useQuery('/products', 'products');
+  const { data: products, loading, error } = useQuery('/api/products');
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>Error: {error}</p>;

@@ -1,10 +1,7 @@
 import ProductCard from './ProductCard';
+import './ProductGrid.css';
 
-export default function ProductGrid({ products = [], onAdd }) {
-  if (products.length === 0) {
-    return <p>Loading products...</p>; // or show nothing
-  }
-
+export default function ProductGrid({ products, onAdd }) {
   return (
     <div className="product-grid">
       {products.map(product => (
