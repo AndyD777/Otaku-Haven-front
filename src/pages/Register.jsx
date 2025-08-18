@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const { login } = useAuth();
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
@@ -13,10 +13,10 @@ export default function Register() {
     setError(null);
 
     try {
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/api/auth/register', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ email, username, password }),
       });
 
       if (!res.ok) {
@@ -25,7 +25,7 @@ export default function Register() {
       }
 
       const data = await res.json();
-      login(data.user);
+      login({ id: data.id, username: data.username }, data.token);
     } catch (err) {
       setError(err.message);
     }
@@ -36,14 +36,14 @@ export default function Register() {
       <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <label htmlFor="username">Username</label>
-      <input id="username" value={username} onChange={e => setUsername(e.target.value)} required />
+      <label>Email</label>
+      <input value={email} onChange={e => setEmail(e.target.value)} required />
 
-      <label htmlFor="email">Email</label>
-      <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+      <label>Username</label>
+      <input value={username} onChange={e => setUsername(e.target.value)} required />
 
-      <label htmlFor="password">Password</label>
-      <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+      <label>Password</label>
+      <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
 
       <button type="submit">Register</button>
     </form>

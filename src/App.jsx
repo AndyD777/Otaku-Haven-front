@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -32,6 +33,8 @@ export default function App() {
     setCartItems(items => items.filter(item => item.id !== id));
   };
 
+  const clearCart = () => setCartItems([]);
+
   return (
     <AuthProvider>
       <Router>
@@ -40,9 +43,16 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products onAdd={addToCart} />} />
           <Route path="/cart" element={<Cart items={cartItems} onRemove={removeFromCart} />} />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <Checkout cartItems={cartItems} onClearCart={clearCart} />
+              </PrivateRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* ... */}
         </Routes>
       </Router>
     </AuthProvider>

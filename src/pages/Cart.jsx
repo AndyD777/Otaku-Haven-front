@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 
 export default function Cart({ items, onRemove }) {
@@ -14,6 +15,11 @@ export default function Cart({ items, onRemove }) {
             <CartItem key={item.id} item={item} onRemove={onRemove} />
           ))}
           <h3>Total: ${(total / 100).toFixed(2)}</h3>
+          <Link to="/checkout">
+            <button style={{ padding: '0.6rem 1.2rem', marginTop: '1rem', backgroundColor: '#ff69b4', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+              Proceed to Checkout
+            </button>
+          </Link>
         </>
       )}
     </div>

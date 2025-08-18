@@ -11,6 +11,7 @@ export default function CartItem({ item, onRemove }) {
       <div className="cart-item-details">
         <h4>{item.name}</h4>
         <p>Quantity: {item.quantity}</p>
+        <p>Subtotal: ${(item.price * item.quantity / 100).toFixed(2)}</p>
         <p>Price: ${(item.price / 100).toFixed(2)}</p>
         <button onClick={() => onRemove(item.id)}>Remove</button>
       </div>

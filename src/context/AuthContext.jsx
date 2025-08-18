@@ -11,12 +11,15 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+  const login = (userData, jwtToken) => {
+    const userWithToken = { ...userData, token: jwtToken }; // merge token into user
+    setUser(userWithToken);
+    localStorage.setItem('user', JSON.stringify(userWithToken));
   };
 
   const logout = () => {

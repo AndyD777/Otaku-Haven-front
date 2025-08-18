@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const { login } = useAuth();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
@@ -12,10 +12,10 @@ export default function Login() {
     setError(null);
 
     try {
-      const res = await fetch(import.meta.env.VITE_BACKEND_URL + '/api/auth/login', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
@@ -24,7 +24,7 @@ export default function Login() {
       }
 
       const data = await res.json();
-      login(data.user);
+      login({ id: data.id, username: data.username }, data.token);
     } catch (err) {
       setError(err.message);
     }
@@ -35,11 +35,11 @@ export default function Login() {
       <h2>Login</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <label htmlFor="username">Username</label>
-      <input id="username" value={username} onChange={e => setUsername(e.target.value)} required />
+      <label>Email</label>
+      <input value={email} onChange={e => setEmail(e.target.value)} required />
 
-      <label htmlFor="password">Password</label>
-      <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+      <label>Password</label>
+      <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
 
       <button type="submit">Log In</button>
     </form>
