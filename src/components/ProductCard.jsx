@@ -3,6 +3,7 @@ import './ProductCard.css';
 
 export default function ProductCard({ product, onAdd }) {
   const [isFavorited, setIsFavorited] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   async function toggleFavorite() {
     try {
@@ -11,7 +12,7 @@ export default function ProductCard({ product, onAdd }) {
 
       if (!isFavorited) {
         // Add to favorites
-        await fetch(import.meta.env.VITE_BACKEND_URL + '/api/favorites', {
+        await fetch(`${API_BASE_URL}/api/favorites`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -21,13 +22,10 @@ export default function ProductCard({ product, onAdd }) {
         });
       } else {
         // Remove from favorites
-        await fetch(
-          import.meta.env.VITE_BACKEND_URL + `/api/favorites/${product.id}`,
-          {
-            method: 'DELETE',
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        await fetch(`${API_BASE_URL}/api/favorites/${product.id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        });
       }
 
       setIsFavorited(!isFavorited);
